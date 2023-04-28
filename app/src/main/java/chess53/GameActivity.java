@@ -35,28 +35,28 @@ public class GameActivity extends AppCompatActivity{
             Chess chessBoard = activity.chessBoard;
             chessBoard.playTurn("resign");
             Toast.makeText(activity, chessBoard.getEndText(),Toast.LENGTH_LONG).show();
-            if(chessBoard.getEndText()!=null) {
+//            if(chessBoard.getEndText()!=null) {
                 activity.resignButton.setEnabled(false);
                 activity.drawButton.setEnabled(false);
                 activity.undoButton.setEnabled(false);
                 activity.aiButton.setEnabled(false);
 //                    Intent saveIntent = new Intent(GameActivity.this, SaveGameActivity.class);
 //                    startActivityForResult(saveIntent, SAVE_GAME);
-            }
+//            }
         });
         drawButton.setOnClickListener(v -> {
             GameActivity activity = GameActivity.this;
             Chess chessBoard = activity.chessBoard;
             chessBoard.playTurn("draw");
             Toast.makeText(activity, chessBoard.getEndText(),Toast.LENGTH_LONG).show();
-            if(chessBoard.getEndText()!=null) {
+//            if(chessBoard.getEndText()!=null) {
                 activity.resignButton.setEnabled(false);
                 activity.drawButton.setEnabled(false);
                 activity.undoButton.setEnabled(false);
                 activity.aiButton.setEnabled(false);
 //                    Intent saveIntent = new Intent(GameActivity.this, SaveGameActivity.class);
 //                    startActivityForResult(saveIntent, SAVE_GAME);
-            }
+//            }
         });
         undoButton.setOnClickListener(view -> {
             if(chessBoard.undoable) {
