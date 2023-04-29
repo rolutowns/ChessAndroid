@@ -1,5 +1,6 @@
 package chess53;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.GridView;
@@ -9,11 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chessandroid.R;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends Activity {
     public Button resignButton, aiButton, drawButton, undoButton;
     public Chess chessBoard;
     public ChessBoardAdapter boardAdapter;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -22,8 +24,9 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.play_game_layout);
         GridView boardView = findViewById(R.id.board);
         boardAdapter = new ChessBoardAdapter(this);
-        boardAdapter.setData(chessBoard.sendBoard());
+        boardAdapter.setParent(boardView);
         boardView.setAdapter(boardAdapter);
+        boardAdapter.setData(chessBoard.sendBoard());
         resignButton = findViewById(R.id.resignButton);
         aiButton = findViewById(R.id.aiButton);
         drawButton = findViewById(R.id.drawButton);
