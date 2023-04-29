@@ -49,6 +49,8 @@ public class Chess {
 
     public boolean undoable;
 
+    private boolean legalMove;
+
 //    static Piece prevLastMoved;
 
     /**
@@ -172,7 +174,7 @@ public class Chess {
             return;
         }
 
-        boolean legalMove = false;
+        legalMove = false;
         while (!legalMove) {
             if (whiteTurn) {
                 System.out.print("White's Move: ");
@@ -378,6 +380,19 @@ public class Chess {
             default:
                 board[dest[0]][dest[1]] = new Queen(whiteTurn);
                 break;
+        }
+    }
+
+    public void ai(){
+        for (int i=0; i<64; i++){
+            for (int j=0; j<64; j++){
+                String x1 = Integer.toString(i % 8);
+                String y1 = Integer.toString(i / 8);
+                String x2 = Integer.toString(j % 8);
+                String y2 = Integer.toString(j / 8);
+                playTurn(x1+y1+x2+y2);
+                if (legalMove) return;
+            }
         }
     }
 

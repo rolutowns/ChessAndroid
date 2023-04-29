@@ -2,6 +2,7 @@ package chess53;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -69,6 +70,14 @@ public class MainActivity extends Activity {
                 }
             }
         });
+        aiButton.setOnClickListener(v -> {
+            chessBoard.ai();
+            boardAdapter.setData(chessBoard.sendBoard());
+            if(boardAdapter.pieceOne != null) {
+                boardAdapter.pieceOne.callOnClick();
+            }
+        });
+
 
         boardView.setOnItemClickListener((parent, view, position, id) -> {
             MainActivity activity = MainActivity.this;
