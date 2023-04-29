@@ -60,7 +60,7 @@ public class ChessBoardAdapter extends BaseAdapter {
             containerParams.width = squareWidth;
             containerParams.height = squareWidth;
             itemContainerView.setLayoutParams(containerParams);
-            ImageButton background = itemContainerView.findViewById(R.id.square);
+            ImageButton background = itemContainerView.findViewById(R.id.background);
             if ((position+position/8)%2==0) background.setImageResource(R.drawable.white_square);
             else background.setImageResource(R.drawable.black_square);
 

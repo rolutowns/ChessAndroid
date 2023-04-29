@@ -22,39 +22,39 @@
         android:theme="@style/Theme.ChessAndroid"
         tools:targetApi="31" >
         <activity
-            android:name="chess53.MainActivity"
+            android:name="chess53.GameActivity"
             android:banner="@drawable/app_icon_your_company"
             android:exported="true"
             android:icon="@drawable/app_icon_your_company"
             android:label="@string/title_activity_main"
             android:logo="@drawable/app_icon_your_company"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="chess53.DetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PlaybackActivity"
-            android:exported="false" />
-        <activity
-            android:name=".BrowseErrorActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.ChessAndroid" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--        <activity-->
+<!--            android:name="chess53.DetailsActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".PlaybackActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".BrowseErrorActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".GameActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/app_name"-->
+<!--            android:theme="@style/Theme.ChessAndroid" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
     </application>
 
 </manifest>

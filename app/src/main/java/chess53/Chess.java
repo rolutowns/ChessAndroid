@@ -127,7 +127,6 @@ public class Chess {
      * If a player is in check, checks for checkmate.
      * Promotes a pawn if it reaches the end of the board.
      * Continues to prompt for a legal move until a valid one is entered.
-     * 
      */
     public void playTurn(String move) {
         int[] kingPos = getKingPos(whiteTurn);
@@ -191,8 +190,12 @@ public class Chess {
             }
             // If no draw
             else {
-                int[] src = getIndices(move.substring(0, 2));
-                int[] dest = getIndices(move.substring(3, 5));
+                int[] src = new int[2];
+                int[] dest = new int[2];
+                src[0]= Integer.parseInt(move.substring(0,1));
+                src[1]= Integer.parseInt(move.substring(1,2));
+                dest[0]= Integer.parseInt(move.substring(2,3));
+                dest[1]= Integer.parseInt(move.substring(3,4));
                 if (board[src[0]][src[1]] != null && board[src[0]][src[1]].isWhite() == whiteTurn) {
                     Piece endPiece = board[dest[0]][dest[1]];
                     Piece startPiece = board[src[0]][src[1]];
