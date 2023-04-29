@@ -185,7 +185,7 @@ public class Chess {
                 end = whiteTurn ? "Black Wins" : "White wins";
                 break;
             } else if (move.contains("draw")) {
-                end = "draw";
+                end = "Draw";
                 break;
             }
             // If no draw
