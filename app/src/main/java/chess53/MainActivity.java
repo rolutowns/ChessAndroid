@@ -1,9 +1,6 @@
 package chess53;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -12,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chessandroid.R;
 
-public class GameActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity{
     public Button resignButton, aiButton, drawButton, undoButton;
     public Chess chessBoard;
     public ChessBoardAdapter boardAdapter;
@@ -33,7 +30,7 @@ public class GameActivity extends AppCompatActivity{
         undoButton = findViewById(R.id.undoButton);
 
         resignButton.setOnClickListener(v -> {
-            GameActivity activity = GameActivity.this;
+            MainActivity activity = MainActivity.this;
             Chess chessBoard = activity.chessBoard;
             chessBoard.playTurn("resign");
             Toast.makeText(activity, chessBoard.getEndText(),Toast.LENGTH_LONG).show();
@@ -42,12 +39,12 @@ public class GameActivity extends AppCompatActivity{
                 activity.drawButton.setEnabled(false);
                 activity.undoButton.setEnabled(false);
                 activity.aiButton.setEnabled(false);
-//                    Intent saveIntent = new Intent(GameActivity.this, SaveGameActivity.class);
+//                    Intent saveIntent = new Intent(MainActivity.this, SaveMainActivity.class);
 //                    startActivityForResult(saveIntent, SAVE_GAME);
 //            }
         });
         drawButton.setOnClickListener(v -> {
-            GameActivity activity = GameActivity.this;
+            MainActivity activity = MainActivity.this;
             Chess chessBoard = activity.chessBoard;
             chessBoard.playTurn("draw");
             Toast.makeText(activity, chessBoard.getEndText(),Toast.LENGTH_LONG).show();
@@ -56,7 +53,7 @@ public class GameActivity extends AppCompatActivity{
                 activity.drawButton.setEnabled(false);
                 activity.undoButton.setEnabled(false);
                 activity.aiButton.setEnabled(false);
-//                    Intent saveIntent = new Intent(GameActivity.this, SaveGameActivity.class);
+//                    Intent saveIntent = new Intent(MainActivity.this, SaveMainActivity.class);
 //                    startActivityForResult(saveIntent, SAVE_GAME);
 //            }
         });
@@ -71,7 +68,7 @@ public class GameActivity extends AppCompatActivity{
         });
 
         boardView.setOnItemClickListener((parent, view, position, id) -> {
-            GameActivity activity = GameActivity.this;
+            MainActivity activity = MainActivity.this;
             Chess chessBoard = activity.chessBoard;
             ChessBoardAdapter boardAdapter = activity.boardAdapter;
             int start = boardAdapter.firstSelected;

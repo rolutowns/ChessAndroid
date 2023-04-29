@@ -22,7 +22,7 @@
         android:theme="@style/Theme.ChessAndroid"
         tools:targetApi="31" >
         <activity
-            android:name="chess53.GameActivity"
+            android:name="chess53.MainActivity"
             android:banner="@drawable/app_icon_your_company"
             android:exported="true"
             android:icon="@drawable/app_icon_your_company"
