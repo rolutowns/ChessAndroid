@@ -8,11 +8,30 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="103dp"
+        android:autoSizeTextType="uniform"
         android:clickable="false"
         android:gravity="center"
-        android:scaleX="5"
-        android:scaleY="5"
         android:text="Chess 53" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/sortByDateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Date Sort" />
+
+        <Button
+            android:id="@+id/sortByNameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Name Sort" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/gameListView"

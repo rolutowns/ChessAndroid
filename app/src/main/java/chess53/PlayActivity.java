@@ -124,7 +124,10 @@ public class PlayActivity extends Activity {
                 String name = data.getStringExtra("Name");
                 Game newGame = new Game(name, chessBoard.sendGame());
                 boolean worked = newGame.save(this);
-                if (worked) Toast.makeText(this,"Game Saved",Toast.LENGTH_SHORT).show();
+                if (worked) {
+                    Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
+                    MainActivity.games.add(newGame);
+                }
                 else Toast.makeText(this,"Could Not Save Game",Toast.LENGTH_SHORT).show();
             }
             else Toast.makeText(this,"Game Not Saved",Toast.LENGTH_SHORT).show();

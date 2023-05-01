@@ -4,14 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/exitButton"
         android:layout_width="match_parent"
-        android:layout_height="103dp"
+        android:layout_height="wrap_content"
+        android:text="EXIT" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:autoSizeTextType="uniform"
         android:clickable="false"
         android:gravity="center"
-        android:scaleX="5"
-        android:scaleY="5"
         android:text="Game" />
 
     <GridView

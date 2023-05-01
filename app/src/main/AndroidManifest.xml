@@ -51,6 +51,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="chess53.MainActivity" />
         </activity>
+        <activity
+            android:name="chess53.ReplayActivity"
+            android:label="@string/title_activity_game"
+            android:parentActivityName="chess53.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="chess53.MainActivity" />
+        </activity>
 <!--        <activity-->
 <!--            android:name="chess53.DetailsActivity"-->
 <!--            android:exported="false" />-->

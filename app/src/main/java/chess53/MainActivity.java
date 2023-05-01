@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
 
     public Game selected;
     public ListView gameListView;
+    public static List<Game> games = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -31,10 +32,21 @@ public class MainActivity extends Activity {
         setContentView(R.layout.home_layout);
         newButton = findViewById(R.id.newGameButton);
         openButton = findViewById(R.id.openGameButton);
+        openButton.setEnabled(false);
+
 
         newButton.setOnClickListener(v -> {
             Intent newGameIntent = new Intent(MainActivity.this, PlayActivity.class);
             startActivity(newGameIntent);
+        });
+
+        openButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReplayActivity.currReplay=selected;
+                Intent replayIntent = new Intent(MainActivity.this, ReplayActivity.class);
+                startActivity(replayIntent);
+            }
         });
     }
 
@@ -44,8 +56,12 @@ public class MainActivity extends Activity {
 
         gameListView = findViewById(R.id.gameListView);
         gameListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        List<Game> games = new ArrayList<>();
+        List<Game> temp = Game.load(this);
+        if (temp!=null) games = Game.load(this);
         gameListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, games));
-        gameListView.setOnItemClickListener((parent, view, position, id) -> selected = (Game) gameListView.getItemAtPosition(position));
+        gameListView.setOnItemClickListener((parent, view, position, id) -> {
+            openButton.setEnabled(true);
+            selected = (Game) gameListView.getItemAtPosition(position);
+        });
     }
 }
