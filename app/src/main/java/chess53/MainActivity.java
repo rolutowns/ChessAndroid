@@ -5,22 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chessandroid.R;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends Activity {
-    public Button newButton, openButton;
+    public Button newButton, openButton, sortByDateButton, sortByNameButton;
 
     public Game selected;
     public ListView gameListView;
@@ -32,7 +28,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.home_layout);
         newButton = findViewById(R.id.newGameButton);
         openButton = findViewById(R.id.openGameButton);
+        sortByNameButton = findViewById(R.id.sortByNameButton);
+        sortByDateButton = findViewById(R.id.sortByDateButton);
         openButton.setEnabled(false);
+        gameListView = findViewById(R.id.gameListView);
+        gameListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
 
         newButton.setOnClickListener(v -> {
@@ -40,24 +40,30 @@ public class MainActivity extends Activity {
             startActivity(newGameIntent);
         });
 
-        openButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ReplayActivity.currReplay=selected;
-                Intent replayIntent = new Intent(MainActivity.this, ReplayActivity.class);
-                startActivity(replayIntent);
-            }
+        openButton.setOnClickListener(v -> {
+            ReplayActivity.currReplay=selected;
+            Intent replayIntent = new Intent(MainActivity.this, ReplayActivity.class);
+            startActivity(replayIntent);
+        });
+
+        sortByDateButton.setOnClickListener(v -> {
+            games.sort(Comparator.comparing(Game::getDate));
+            gameListView.setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, games));
+        });
+        sortByNameButton.setOnClickListener(v -> {
+            games.sort((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
+            gameListView.setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, games));
         });
     }
 
     protected void onStart() {
 
         super.onStart();
-
-        gameListView = findViewById(R.id.gameListView);
-        gameListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         List<Game> temp = Game.load(this);
-        if (temp!=null) games = Game.load(this);
+        if (temp!=null) {
+            games = temp;
+        }
+
         gameListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, games));
         gameListView.setOnItemClickListener((parent, view, position, id) -> {
             openButton.setEnabled(true);
