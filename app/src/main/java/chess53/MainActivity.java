@@ -85,20 +85,21 @@ public class MainActivity extends Activity {
             MainActivity activity = MainActivity.this;
             Chess chessBoard = activity.chessBoard;
             ChessBoardAdapter boardAdapter = activity.boardAdapter;
-            int start = boardAdapter.firstSelected;
-            int end = boardAdapter.secondSelected;
-            if(start == -1 || end == -1) {
-                Toast.makeText(activity,"No move selected",Toast.LENGTH_LONG).show();
-            } else {
-                String x1 = Integer.toString(start % 8);
-                String y1 = Integer.toString(start / 8);
-                String x2 = Integer.toString(end % 8);
-                String y2 = Integer.toString(end / 8);
-                chessBoard.playTurn(x1+y1+x2+y2);
-                boardAdapter.setData(chessBoard.sendBoard());
-                boardAdapter.pieceOne.callOnClick();
-                undoButton.setEnabled(chessBoard.undoable);
-            }
+
+//            int start = boardAdapter.firstSelected;
+//            int end = boardAdapter.secondSelected;
+//            if(start == -1 || end == -1) {
+//                Toast.makeText(activity,"No move selected",Toast.LENGTH_LONG).show();
+//            } else {
+//                String x1 = Integer.toString(start % 8);
+//                String y1 = Integer.toString(start / 8);
+//                String x2 = Integer.toString(end % 8);
+//                String y2 = Integer.toString(end / 8);
+//                chessBoard.playTurn(x1+y1+x2+y2);
+//                boardAdapter.setData(chessBoard.sendBoard());
+//                boardAdapter.pieceOne.callOnClick();
+//                undoButton.setEnabled(chessBoard.undoable);
+//            }
         });
 
 
