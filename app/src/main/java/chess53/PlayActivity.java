@@ -61,7 +61,6 @@ public class PlayActivity extends Activity {
             activity.undoButton.setEnabled(false);
             activity.aiButton.setEnabled(false);
             startActivityForResult(new Intent(PlayActivity.this, SaveActivity.class), 0);
-//            }
         });
         undoButton.setOnClickListener(v -> {
             if (chessBoard.undoable) {
