@@ -13,8 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.chessandroid.R;
 
 public class PlayActivity extends Activity {
-    public Button resignButton, aiButton, drawButton, undoButton;
-    public Chess chessBoard;
+    public Button resignButton;
+    public Button aiButton;
+    public Button drawButton;
+    public static Button undoButton;
+    public static Chess chessBoard;
     public ChessBoardAdapter boardAdapter;
 
     @Override
@@ -39,7 +42,7 @@ public class PlayActivity extends Activity {
             PlayActivity activity = PlayActivity.this;
             Chess chessBoard = activity.chessBoard;
             chessBoard.playTurn("resign");
-            Toast.makeText(activity, chessBoard.getEndText(),Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, chessBoard.getEndText(), Toast.LENGTH_LONG).show();
 //            if(chessBoard.getEndText()!=null) {
             activity.resignButton.setEnabled(false);
             activity.drawButton.setEnabled(false);
@@ -51,7 +54,7 @@ public class PlayActivity extends Activity {
             PlayActivity activity = PlayActivity.this;
             Chess chessBoard = activity.chessBoard;
             chessBoard.playTurn("draw");
-            Toast.makeText(activity, chessBoard.getEndText(),Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, chessBoard.getEndText(), Toast.LENGTH_LONG).show();
 //            if(chessBoard.getEndText()!=null) {
             activity.resignButton.setEnabled(false);
             activity.drawButton.setEnabled(false);
@@ -60,34 +63,25 @@ public class PlayActivity extends Activity {
 //            }
         });
         undoButton.setOnClickListener(v -> {
-            if(chessBoard.undoable) {
+            if (chessBoard.undoable) {
                 chessBoard.undo();
                 PlayActivity activity = PlayActivity.this;
                 activity.undoButton.setEnabled(false);
                 boardAdapter.setData(chessBoard.sendBoard());
-                if(boardAdapter.pieceOne != null) {
+                if (boardAdapter.pieceOne != null) {
                     boardAdapter.pieceOne.callOnClick();
                 }
             }
         });
         aiButton.setOnClickListener(v -> {
             PlayActivity activity = PlayActivity.this;
-            activity.undoButton.setEnabled(true);
+            activity.undoButton.setEnabled(false);
             chessBoard.ai();
             boardAdapter.setData(chessBoard.sendBoard());
-            if(boardAdapter.pieceOne != null) {
+            if (boardAdapter.pieceOne != null) {
                 boardAdapter.pieceOne.callOnClick();
             }
         });
-
-
-        boardView.setOnItemClickListener((parent, view, position, id) -> {
-            PlayActivity activity = PlayActivity.this;
-            Chess chessBoard = activity.chessBoard;
-            ChessBoardAdapter boardAdapter = activity.boardAdapter;
-
-        });
-
 
     }
 }

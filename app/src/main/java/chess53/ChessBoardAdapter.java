@@ -2,9 +2,11 @@ package chess53;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -18,14 +20,14 @@ public class ChessBoardAdapter extends BaseAdapter {
 
     private final Context mContext;
 
-    private GridView parent;
+    private GridView boardView;
 
     public Piece[] pieces;
 
     public int firstSelected = -1;
     public int secondSelected = -1;
-    public PieceButton pieceOne = null;
-    public PieceButton pieceTwo = null;
+    public ImageView pieceOne = null;
+    public ImageView pieceTwo = null;
 
     public ChessBoardAdapter(Context context){
         mContext = context;
@@ -60,53 +62,44 @@ public class ChessBoardAdapter extends BaseAdapter {
             containerParams.width = squareWidth;
             containerParams.height = squareWidth;
             itemContainerView.setLayoutParams(containerParams);
-            ImageButton background = itemContainerView.findViewById(R.id.background);
+            ImageView background = itemContainerView.findViewById(R.id.background);
             if ((position+position/8)%2==0) background.setImageResource(R.drawable.white_square);
             else background.setImageResource(R.drawable.black_square);
 
-            PieceButton pieceView = itemContainerView.findViewById(R.id.piece);
+            ImageView pieceView = itemContainerView.findViewById(R.id.piece);
             pieceView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             pieceView.setPadding(0, 0, 0, 0);
             pieceView.setImageResource(getImageResource(pieces[position]));
             pieceView.setTag(position);
 
-            pieceView.setOnClickListener(view -> {
+            boardView.setOnItemClickListener((parent1, view, position1, id) -> {
                 ChessBoardAdapter adapter = ChessBoardAdapter.this;
-                PieceButton piece = (PieceButton) view;
-                if(piece.selected) {
-                    if(piece.equals(adapter.pieceOne)) {
-                        adapter.pieceOne = null;
-                        if(adapter.secondSelected != -1) {
-                            adapter.pieceTwo.setImageResource(getImageResource(pieces[(Integer) adapter.pieceTwo.getTag()]));
-                            adapter.pieceTwo.selected = false;
-                        }
-                        adapter.pieceTwo = null;
-                        adapter.firstSelected = -1;
-                        adapter.secondSelected = -1;
-                    } else if(piece.equals(adapter.pieceTwo)) {
-                        adapter.pieceTwo = null;
-                        adapter.secondSelected = -1;
-                    }
-                    piece.setImageResource(getImageResource(pieces[(Integer)piece.getTag()]));
-                    piece.selected = false;
-
+                ImageView piece = (ImageView) view.findViewById(R.id.piece);
+                Log.i("A", "Piece: " + piece.getTag());
+                if (adapter.firstSelected == -1) {
+                    adapter.firstSelected = (Integer) piece.getTag();
                 } else {
-                    if(adapter.firstSelected == -1) {
-                        adapter.firstSelected = (Integer)piece.getTag();
-                        adapter.pieceOne = piece;
+                    if (adapter.secondSelected != -1) {
+                        adapter.firstSelected = (Integer) piece.getTag();
+                        adapter.secondSelected = -1;
                     } else {
-                        if(adapter.secondSelected != -1) {
-                            adapter.pieceTwo.setImageResource(getImageResource(pieces[(Integer)adapter.pieceTwo.getTag()]));
-                            adapter.pieceTwo.selected = false;
-                        }
-                        adapter.pieceTwo = piece;
-                        adapter.secondSelected = (Integer)piece.getTag();
+                        adapter.secondSelected = (Integer) piece.getTag();
                     }
-                    piece.setImageResource(getImageResource(pieces[(Integer)piece.getTag()]));
-                    piece.selected = true;
+                }
+                Log.i("A", "First Piece:" + adapter.firstSelected);
+                Log.i("A", "Second Piece:" + adapter.secondSelected);
+//                PlayActivity activity = PlayActivity.activity;
+                if (adapter.firstSelected != -1 && adapter.secondSelected != -1) {
+                    String x1 = Integer.toString(firstSelected % 8);
+                    String y1 = Integer.toString(firstSelected / 8);
+                    String x2 = Integer.toString(secondSelected % 8);
+                    String y2 = Integer.toString(secondSelected / 8);
+                    PlayActivity.chessBoard.playTurn(x1 + y1 + x2 + y2);
+                    setData(PlayActivity.chessBoard.sendBoard());
+                    if (PlayActivity.chessBoard.undoable)
+                        PlayActivity.undoButton.setEnabled(true);
                 }
             });
-
             TextView text = itemContainerView.findViewById(R.id.square_label);
             text.setText("");
         } else {
@@ -115,15 +108,14 @@ public class ChessBoardAdapter extends BaseAdapter {
             containerParams.width = squareWidth;
             containerParams.height = squareWidth;
             itemContainerView.setLayoutParams(containerParams);
-            PieceButton pieceView = itemContainerView.findViewById(R.id.piece);
+            ImageView pieceView = itemContainerView.findViewById(R.id.piece);
             pieceView.setImageResource(getImageResource(pieces[(Integer)pieceView.getTag()]));
-
         }
         return itemContainerView;
     }
 
     public void setParent(ViewGroup parent) {
-        this.parent = (GridView) parent;
+        boardView = (GridView) parent;
     }
 
     public int getImageResource(Piece data) {
@@ -153,6 +145,6 @@ public class ChessBoardAdapter extends BaseAdapter {
 
     public void setData(Piece[] pieces) {
         this.pieces = pieces;
-        this.parent.invalidateViews();
+        boardView.invalidateViews();
     }
 }
