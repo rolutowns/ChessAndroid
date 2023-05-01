@@ -1,5 +1,7 @@
 package chess53;
 
+import java.io.Serializable;
+
 /**
  * The {@code Piece} abstract class represents a chess piece. Subclasses of this class should implement
  * the specific behavior and legal moves of each type of piece (e.g. pawn, rook, bishop, etc.).
@@ -7,7 +9,7 @@ package chess53;
  * @author Krish Patel
  * @author Roshan Varadhan
  */
-public abstract class Piece {
+public abstract class Piece implements Serializable {
 
     private final boolean white;
     public boolean hasMoved = false;

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -119,12 +120,14 @@ public class PlayActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             if(resultCode == RESULT_OK) {
-                String filename = data.getStringExtra("filename");
-//                boolean record = RecordGame.getInstance().save(filename, board.getRecord(), this);
-//                if(record) {
-//                    Toast.makeText(this,"Game Saved",Toast.LENGTH_SHORT).show();
-//                }
+                Log.i("Q", "Reached Here");
+                String name = data.getStringExtra("Name");
+                Game newGame = new Game(name, chessBoard.sendGame());
+                boolean worked = newGame.save(this);
+                if (worked) Toast.makeText(this,"Game Saved",Toast.LENGTH_SHORT).show();
+                else Toast.makeText(this,"Could Not Save Game",Toast.LENGTH_SHORT).show();
             }
+            else Toast.makeText(this,"Game Not Saved",Toast.LENGTH_SHORT).show();
             finish();
 
     }

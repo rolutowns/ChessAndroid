@@ -3,6 +3,7 @@ package chess53;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -24,13 +25,14 @@ public class SaveActivity extends Activity {
         confirmSaveButton.setOnClickListener(v -> {
             Intent saveIntent = new Intent();
             saveIntent.putExtra("Name", gameName.getText().toString());
+            Log.i("Z", gameName.getText().toString());
             setResult(RESULT_OK, saveIntent);
-            startActivity(new Intent(SaveActivity.this, MainActivity.class));
+            finish();
         });
 
         cancelSaveButton.setOnClickListener(v -> {
             setResult(RESULT_CANCELED);
-            startActivity(new Intent(SaveActivity.this, MainActivity.class));
+            finish();
         });
     }
 }

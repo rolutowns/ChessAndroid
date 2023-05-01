@@ -437,6 +437,10 @@ public class Chess {
         return tempBoard;
     }
 
+    public ArrayList<Piece[]> sendGame(){
+        return game;
+    }
+
     /**
      * Returns the ending text for the chess game.
      * This method is called after the game has ended and
