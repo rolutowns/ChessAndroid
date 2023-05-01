@@ -1,18 +1,13 @@
 package chess53;
 
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chessandroid.R;
 
@@ -24,7 +19,7 @@ public class PlayActivity extends Activity {
     public static Chess chessBoard;
     public ChessBoardAdapter boardAdapter;
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private Runnable runnable;
 
     @Override
@@ -50,20 +45,17 @@ public class PlayActivity extends Activity {
             Chess chessBoard = activity.chessBoard;
             chessBoard.playTurn("resign");
             Toast.makeText(activity, chessBoard.getEndText(), Toast.LENGTH_LONG).show();
-//            if(chessBoard.getEndText()!=null) {
             activity.resignButton.setEnabled(false);
             activity.drawButton.setEnabled(false);
             activity.undoButton.setEnabled(false);
             activity.aiButton.setEnabled(false);
             startActivityForResult(new Intent(PlayActivity.this, SaveActivity.class), 0);
-//            }
         });
         drawButton.setOnClickListener(v -> {
             PlayActivity activity = PlayActivity.this;
             Chess chessBoard = activity.chessBoard;
             chessBoard.playTurn("draw");
             Toast.makeText(activity, chessBoard.getEndText(), Toast.LENGTH_LONG).show();
-//            if(chessBoard.getEndText()!=null) {
             activity.resignButton.setEnabled(false);
             activity.drawButton.setEnabled(false);
             activity.undoButton.setEnabled(false);
@@ -96,18 +88,16 @@ public class PlayActivity extends Activity {
 
     @Override
     protected void onResume() {
-        handler.postDelayed(runnable = new Runnable() {
-            public void run() {
-                handler.postDelayed(runnable, 1000);
-                if (chessBoard.getEndText()!=null){
-                        resignButton.setEnabled(false);
-                        drawButton.setEnabled(false);
-                        undoButton.setEnabled(false);
-                        aiButton.setEnabled(false);
-                        Toast.makeText(PlayActivity.this, chessBoard.getEndText(), Toast.LENGTH_LONG).show();
-                        startActivityForResult(new Intent(PlayActivity.this, SaveActivity.class), 0);
-                    }
-            }
+        handler.postDelayed(runnable = () -> {
+            handler.postDelayed(runnable, 1000);
+            if (chessBoard.getEndText()!=null){
+                    resignButton.setEnabled(false);
+                    drawButton.setEnabled(false);
+                    undoButton.setEnabled(false);
+                    aiButton.setEnabled(false);
+                    Toast.makeText(PlayActivity.this, chessBoard.getEndText(), Toast.LENGTH_LONG).show();
+                    startActivityForResult(new Intent(PlayActivity.this, SaveActivity.class), 0);
+                }
         }, 1000);
         super.onResume();
     }
@@ -123,14 +113,10 @@ public class PlayActivity extends Activity {
                 Log.i("Q", "Reached Here");
                 String name = data.getStringExtra("Name");
                 Game newGame = new Game(name, chessBoard.sendGame());
-                boolean worked = newGame.save(this);
-                if (worked) {
-                    Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
-                    MainActivity.games.add(newGame);
-                }
-                else Toast.makeText(this,"Could Not Save Game",Toast.LENGTH_SHORT).show();
+                MainActivity.games.add(newGame);
             }
             else Toast.makeText(this,"Game Not Saved",Toast.LENGTH_SHORT).show();
+            setResult(RESULT_OK);
             finish();
 
     }

@@ -1,21 +1,15 @@
 package chess53;
 
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chessandroid.R;
@@ -77,7 +71,7 @@ public class ChessBoardAdapter extends BaseAdapter {
 
             boardView.setOnItemClickListener((parent1, view, position1, id) -> {
                 ChessBoardAdapter adapter = ChessBoardAdapter.this;
-                ImageView piece = (ImageView) view.findViewById(R.id.piece);
+                ImageView piece = view.findViewById(R.id.piece);
                 Log.i("A", "Piece: " + piece.getTag());
                 if (adapter.firstSelected == -1) {
                     adapter.firstSelected = (Integer) piece.getTag();
@@ -101,14 +95,6 @@ public class ChessBoardAdapter extends BaseAdapter {
                     setData(PlayActivity.chessBoard.sendBoard());
                     if (PlayActivity.chessBoard.undoable) PlayActivity.undoButton.setEnabled(true);
                     if (PlayActivity.chessBoard.currCheck) Toast.makeText(mContext, "Check", Toast.LENGTH_LONG).show();
-//                    if (PlayActivity.chessBoard.getEndText()!=null){
-//                        PlayActivity.resignButton.setEnabled(false);
-//                        PlayActivity.drawButton.setEnabled(false);
-//                        PlayActivity.undoButton.setEnabled(false);
-//                        PlayActivity.aiButton.setEnabled(false);
-//                        Toast.makeText(mContext, PlayActivity.chessBoard.getEndText(), Toast.LENGTH_LONG).show();
-//                        startActivityForResult(new Intent(PlayActivity., SaveActivity.class), 0);
-//                    }
                 }
             });
         } else {

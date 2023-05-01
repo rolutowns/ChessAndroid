@@ -1,9 +1,6 @@
 package chess53;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Chess game implementation that allows for en passant capture, castling, and detects checkmates
@@ -30,10 +27,6 @@ public class Chess {
      */
     public static String end;
 
-    /**
-     * Scanner to read user input for making moves
-     */
-//    private static Scanner in;
 
     /**
      * Boolean to keep track of whether white is currently in check
@@ -56,8 +49,6 @@ public class Chess {
 
     public boolean currCheck;
 
-//    static Piece prevLastMoved;
-
     /**
      * Initializes a new game of Chess by creating a new board, setting the first turn to white
      * and creating new instances of all the pieces in their starting positions.
@@ -68,7 +59,6 @@ public class Chess {
         whiteTurn = true;
         end = null;
         game = new ArrayList<>();
-//        in = new Scanner(System.in);
         undoable = false;
         currCheck = false;
 
@@ -103,34 +93,6 @@ public class Chess {
     }
 
     /**
-     * Prints the current state of the game board to the console. 
-     * Shows the positions of all the pieces and the letters representing the columns and the numbers representing the rows.
-     */
-//    public static void printGame() {
-//        for (int i = 0; i < 8; i++) {
-//            for (int j = 0; j < 8; j++) {
-//
-//                if (board[i][j] != null) {
-//                    System.out.print(board[i][j] + " ");
-//                } else {
-//                    if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) {
-//                        System.out.print("## ");
-//                    } else {
-//                        System.out.print("   ");
-//                    }
-//                }
-//
-//            }
-//            System.out.println(8 - i);
-//        }
-//        for (int i = 0; i < 8; i++) {
-//            System.out.print(" " + (char) ('a' + i) + " ");
-//        }
-//        System.out.println('\n');
-
-//    }
-
-    /**
      * Plays one turn of chess.
      * If a player is in check, checks for checkmate.
      * Promotes a pawn if it reaches the end of the board.
@@ -139,7 +101,6 @@ public class Chess {
     public void playTurn(String move) {
         int[] kingPos = getKingPos(whiteTurn);
         Piece tempKing = board[kingPos[0]][kingPos[1]];
-//        Log.i("A", String.valueOf(whiteTurn));
         legalMove = false;
         if (move.contains("resign")) {
             end = whiteTurn ? "Black Wins" : "White wins";
@@ -176,7 +137,6 @@ public class Chess {
                 } else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
             } else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
 
-            if (!legalMove) Log.i("A", "Move not allowed");
             // if move results in self check
             if (legalMove) {
                 kingPos = getKingPos(whiteTurn);
@@ -201,7 +161,6 @@ public class Chess {
                             if (enPassantPotential != null)
                                 board[src[0]][dest[1]] = enPassantPotential;
                             legalMove = false;
-                            Log.i("A", "Results in Self Check");
                             break;
                         }
                     }
@@ -215,7 +174,6 @@ public class Chess {
             whiteTurn = !whiteTurn;
             game.add(sendBoard());
             undoable = true;
-            Log.i("A", "Successful Move");
         }
         currCheck = false;
         kingPos = getKingPos(whiteTurn);
@@ -226,7 +184,6 @@ public class Chess {
                 if (board[i][j].isLegalMove(i, kingPos[0], j, kingPos[1])) {
                     board[i][j] = board[kingPos[0]][kingPos[1]];
                     board[kingPos[0]][kingPos[1]] = tempKing;
-//                    System.out.println("Check");
                     if (tempKing.isWhite()) whiteInCheck = true;
                     else blackInCheck = true;
                     currCheck = true;
@@ -242,7 +199,6 @@ public class Chess {
         if (whiteTurn && whiteInCheck) {
             boolean mate = noValidMoves();
             if (mate) {
-//                System.out.println("Checkmate");
                 end = "Checkmate: Black Wins";
                 return;
             }
@@ -250,14 +206,12 @@ public class Chess {
         if (!whiteTurn && blackInCheck) {
             boolean mate = noValidMoves();
             if (mate) {
-//                System.out.println("Checkmate");
                 end = "Checkmate: White Wins";
                 return;
             }
         }
         if (noValidMoves()) {
             end = "Stalemate";
-            return;
         }
     }
 
@@ -385,8 +339,6 @@ public class Chess {
                 if (board[endx][endy]!=null && board[endx][endy].isWhite()==whiteTurn) continue;
                 String y2 = Integer.toString(endy);
                 String x2 = Integer.toString(endx);
-                Log.i("Piece One", i + ": " + board[startx][starty].getType());
-                Log.i("Piece Two", Integer.toString(j));
                 playTurn(y1 + x1 + y2 + x2);
                 if (legalMove) return;
             }

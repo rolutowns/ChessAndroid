@@ -3,7 +3,7 @@ package chess53;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.example.chessandroid.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,10 +35,12 @@ public class MainActivity extends Activity {
         gameListView = findViewById(R.id.gameListView);
         gameListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
+        loadGames();
+
 
         newButton.setOnClickListener(v -> {
             Intent newGameIntent = new Intent(MainActivity.this, PlayActivity.class);
-            startActivity(newGameIntent);
+            startActivityForResult(newGameIntent, 1);
         });
 
         openButton.setOnClickListener(v -> {
@@ -54,20 +57,62 @@ public class MainActivity extends Activity {
             games.sort((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
             gameListView.setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, games));
         });
+
+        gameListView.setOnItemClickListener((parent, view, position, id) -> {
+            if(position <0 || games.get(position)==null) {
+                selected =null;
+                return;
+            }
+            openButton.setEnabled(true);
+            selected = games.get(position);
+        });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode==RESULT_OK){
+            try {
+                Game.save(MainActivity.this);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void loadGames() {
+        try {
+            Game.load(this);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        gameListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, games));
     }
 
     protected void onStart() {
 
         super.onStart();
-        List<Game> temp = Game.load(this);
-        if (temp!=null) {
-            games = temp;
-        }
+
+        loadGames();
 
         gameListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, games));
-        gameListView.setOnItemClickListener((parent, view, position, id) -> {
-            openButton.setEnabled(true);
-            selected = (Game) gameListView.getItemAtPosition(position);
-        });
+    }
+    protected void onStop(){
+        super.onStop();
+        try {
+            Game.save(this);
+            Log.i("A", "Entered Save On Stop");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected void onDestroy(){
+        super.onDestroy();
+        try {
+            Game.save(this);
+            Log.i("A", "Entered Save on Destroy");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
