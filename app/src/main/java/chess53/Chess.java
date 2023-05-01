@@ -30,7 +30,7 @@ public class Chess {
     /**
      * Scanner to read user input for making moves
      */
-    private static Scanner in;
+//    private static Scanner in;
     
     /**
      * Boolean to keep track of whether white is currently in check
@@ -62,8 +62,8 @@ public class Chess {
         lastMoved=null;
         whiteTurn = true;
         end = null;
-        game = new ArrayList<Piece[]>();
-        in = new Scanner(System.in);
+        game = new ArrayList<>();
+//        in = new Scanner(System.in);
         undoable=false;
 
         board[0][0] = new Rook(false);
@@ -100,29 +100,29 @@ public class Chess {
      * Prints the current state of the game board to the console. 
      * Shows the positions of all the pieces and the letters representing the columns and the numbers representing the rows.
      */
-    public static void printGame() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+//    public static void printGame() {
+//        for (int i = 0; i < 8; i++) {
+//            for (int j = 0; j < 8; j++) {
+//
+//                if (board[i][j] != null) {
+//                    System.out.print(board[i][j] + " ");
+//                } else {
+//                    if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) {
+//                        System.out.print("## ");
+//                    } else {
+//                        System.out.print("   ");
+//                    }
+//                }
+//
+//            }
+//            System.out.println(8 - i);
+//        }
+//        for (int i = 0; i < 8; i++) {
+//            System.out.print(" " + (char) ('a' + i) + " ");
+//        }
+//        System.out.println('\n');
 
-                if (board[i][j] != null) {
-                    System.out.print(board[i][j] + " ");
-                } else {
-                    if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) {
-                        System.out.print("## ");
-                    } else {
-                        System.out.print("   ");
-                    }
-                }
-
-            }
-            System.out.println(8 - i);
-        }
-        for (int i = 0; i < 8; i++) {
-            System.out.print(" " + (char) ('a' + i) + " ");
-        }
-        System.out.println('\n');
-
-    }
+//    }
 
     /**
      * Plays one turn of chess.
@@ -175,20 +175,20 @@ public class Chess {
         }
 
         legalMove = false;
-        while (!legalMove) {
-            if (whiteTurn) {
-                System.out.print("White's Move: ");
-            } else {
-                System.out.print("Black's Move: ");
-            }
+//        while (!legalMove) {
+//            if (whiteTurn) {
+//                System.out.print("White's Move: ");
+//            } else {
+//                System.out.print("Black's Move: ");
+//            }
 //            String move = in.nextLine();
-            System.out.println();
+//            System.out.println();
             if (move.contains("resign")) {
                 end = whiteTurn ? "Black Wins" : "White wins";
-                break;
+//                break;
             } else if (move.contains("draw")) {
                 end = "Draw";
-                break;
+//                break;
             }
             // If no draw
             else {
@@ -251,8 +251,8 @@ public class Chess {
                     }
                     if (legalMove && promoteTo != null) promote(dest, promoteTo);
                 }
-                if(!legalMove) System.out.println("Illegal move, try again\n");
-                else {
+//                if(!legalMove) System.out.println("Illegal move, try again\n");
+                if (legalMove) {
 //                    prevLastMoved = lastMoved;
                     lastMoved = board[dest[0]][dest[1]];
                     lastMoved.hasMoved = true;
@@ -262,7 +262,7 @@ public class Chess {
                 }
             }
         }
-    }
+//    }
 
     /**
      * Returns a boolean to check if the player has any legal moves
@@ -385,9 +385,14 @@ public class Chess {
 
     public void ai(){
         for (int i=0; i<64; i++){
+            int startx = i%8;
+            int endx=i/8;
+            if (board[startx][endx]==null)continue;
+            if (board[startx][endx].isWhite()!=whiteTurn) continue;
+            String x1 = Integer.toString(startx);
+            String y1 = Integer.toString(endx);
             for (int j=0; j<64; j++){
-                String x1 = Integer.toString(i % 8);
-                String y1 = Integer.toString(i / 8);
+//                System.out.println("i: " + i + " j: " + j);
                 String x2 = Integer.toString(j % 8);
                 String y2 = Integer.toString(j / 8);
                 playTurn(x1+y1+x2+y2);
@@ -397,22 +402,55 @@ public class Chess {
     }
 
     public void undo(){
-        int last=game.size()-1;
-//        if (last<0) return;
+        int last=game.size()-2;
+        if (last<0) return;
         Piece[] lastBoard = game.get(last);
-        lastMoved = lastBoard[64];
         for (int i=0; i<64; i++){
+//            if (lastBoard[i]!=null) System.out.println(lastBoard[i] + ": " + lastBoard[i].hasMoved);
             board[i/8][i%8]=lastBoard[i];
         }
+        lastMoved = lastBoard[64];
         whiteTurn = !whiteTurn;
-        game.remove(last);
+        game.remove(game.size()-1);
         undoable=false;
     }
 
     public Piece[] sendBoard() {
         Piece[] tempBoard = new Piece[65];
         for (int i = 0; i < 8; i++) {
-            System.arraycopy(board[i], 0, tempBoard, i * 8, 8);
+            for (int j=0; j<8; j++){
+                Piece temp = board[i][j];
+                if (temp==null){
+                    tempBoard[i*8+j]= null;
+                    continue;
+                }
+                String type =temp.getType();
+                Piece newPiece = null;
+                switch(type){
+                    case "PAWN":
+                        newPiece = new Pawn(temp.isWhite());
+                        break;
+                    case "ROOK":
+                        newPiece = new Rook(temp.isWhite());
+                        break;
+                    case "BISHOP":
+                        newPiece = new Bishop(temp.isWhite());
+                        break;
+                        case "KNIGHT":
+                        newPiece = new Knight(temp.isWhite());
+                        break;
+                        case "QUEEN":
+                        newPiece = new Queen(temp.isWhite());
+                        break;
+                        case "KING":
+                        newPiece = new King(temp.isWhite());
+                        break;
+                }
+                newPiece.setEnPassant(temp.enPassantable());
+                newPiece.hasMoved=temp.hasMoved;
+                tempBoard[i*8+j]=newPiece;
+            }
+//            System.arraycopy(board[i], 0, tempBoard, i * 8, 8);
         }
         tempBoard[64]=lastMoved;
         return tempBoard;

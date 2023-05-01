@@ -128,9 +128,7 @@ public class ChessBoardAdapter extends BaseAdapter {
 
     public int getImageResource(Piece data) {
         if (data==null) return R.drawable.piece_empty;
-        boolean isWhite = data.isWhite();
-
-        if(isWhite) {
+        if(data.isWhite()) {
             switch(data.getType()) {
                 case "KING": return R.drawable.white_king;
                 case "QUEEN": return R.drawable.white_queen;

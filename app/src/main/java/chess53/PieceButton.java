@@ -1,5 +1,6 @@
 package chess53;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -11,7 +12,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class PieceButton extends androidx.appcompat.widget.AppCompatImageButton {
+@SuppressLint("AppCompatCustomView")
+public class PieceButton extends ImageButton {
     public boolean selected = false;
 
     public PieceButton(Context context) {
