@@ -1,6 +1,7 @@
 package chess53;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,8 +45,6 @@ public class MainActivity extends Activity {
                 activity.drawButton.setEnabled(false);
                 activity.undoButton.setEnabled(false);
                 activity.aiButton.setEnabled(false);
-//                    Intent saveIntent = new Intent(MainActivity.this, SaveMainActivity.class);
-//                    startActivityForResult(saveIntent, SAVE_GAME);
 //            }
         });
         drawButton.setOnClickListener(v -> {
@@ -58,8 +57,6 @@ public class MainActivity extends Activity {
                 activity.drawButton.setEnabled(false);
                 activity.undoButton.setEnabled(false);
                 activity.aiButton.setEnabled(false);
-//                    Intent saveIntent = new Intent(MainActivity.this, SaveMainActivity.class);
-//                    startActivityForResult(saveIntent, SAVE_GAME);
 //            }
         });
         undoButton.setOnClickListener(v -> {
