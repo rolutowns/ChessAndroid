@@ -139,7 +139,7 @@ public class Chess {
     public void playTurn(String move) {
         int[] kingPos = getKingPos(whiteTurn);
         Piece tempKing = board[kingPos[0]][kingPos[1]];
-        Log.i("A", String.valueOf(whiteTurn));
+//        Log.i("A", String.valueOf(whiteTurn));
         legalMove = false;
         if (move.contains("resign")) {
             end = whiteTurn ? "Black Wins" : "White wins";
@@ -172,6 +172,7 @@ public class Chess {
             } else if (whiteInCheck || blackInCheck) {
                 if (startPiece instanceof King) {
                     if (Math.abs(dest[1] - src[1]) == 2) legalMove = false;
+                    else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
                 } else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
             } else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
 
@@ -200,6 +201,7 @@ public class Chess {
                             if (enPassantPotential != null)
                                 board[src[0]][dest[1]] = enPassantPotential;
                             legalMove = false;
+                            Log.i("A", "Results in Self Check");
                             break;
                         }
                     }
@@ -224,7 +226,7 @@ public class Chess {
                 if (board[i][j].isLegalMove(i, kingPos[0], j, kingPos[1])) {
                     board[i][j] = board[kingPos[0]][kingPos[1]];
                     board[kingPos[0]][kingPos[1]] = tempKing;
-                    System.out.println("Check");
+//                    System.out.println("Check");
                     if (tempKing.isWhite()) whiteInCheck = true;
                     else blackInCheck = true;
                     currCheck = true;
@@ -240,7 +242,7 @@ public class Chess {
         if (whiteTurn && whiteInCheck) {
             boolean mate = noValidMoves();
             if (mate) {
-                System.out.println("Checkmate");
+//                System.out.println("Checkmate");
                 end = "Checkmate: Black Wins";
                 return;
             }
@@ -248,7 +250,7 @@ public class Chess {
         if (!whiteTurn && blackInCheck) {
             boolean mate = noValidMoves();
             if (mate) {
-                System.out.println("Checkmate");
+//                System.out.println("Checkmate");
                 end = "Checkmate: White Wins";
                 return;
             }
@@ -371,16 +373,21 @@ public class Chess {
 
     public void ai() {
         for (int i = 0; i < 64; i++) {
-            int startx = i % 8;
-            int starty = i / 8;
+            int starty = i % 8;
+            int startx = i / 8;
             if (board[startx][starty] == null) continue;
             if (board[startx][starty].isWhite() != whiteTurn) continue;
             String x1 = Integer.toString(startx);
             String y1 = Integer.toString(starty);
             for (int j = 0; j < 64; j++) {
-                String x2 = Integer.toString(j % 8);
-                String y2 = Integer.toString(j / 8);
-                playTurn(x1 + y1 + x2 + y2);
+                int endy = j % 8;
+                int endx = j / 8;
+                if (board[endx][endy]!=null && board[endx][endy].isWhite()==whiteTurn) continue;
+                String y2 = Integer.toString(endy);
+                String x2 = Integer.toString(endx);
+                Log.i("Piece One", i + ": " + board[startx][starty].getType());
+                Log.i("Piece Two", Integer.toString(j));
+                playTurn(y1 + x1 + y2 + x2);
                 if (legalMove) return;
             }
         }

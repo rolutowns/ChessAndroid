@@ -24,9 +24,15 @@ public class SaveActivity extends Activity {
 
         confirmSaveButton.setOnClickListener(v -> {
             Intent saveIntent = new Intent();
-            saveIntent.putExtra("Name", gameName.getText().toString());
-            Log.i("Z", gameName.getText().toString());
-            setResult(RESULT_OK, saveIntent);
+            String name = gameName.getText().toString();
+            if (name.isEmpty()){
+                setResult(RESULT_CANCELED);
+            }
+            else{
+                saveIntent.putExtra("Name", name);
+                Log.i("Z", name);
+                setResult(RESULT_OK, saveIntent);
+            }
             finish();
         });
 

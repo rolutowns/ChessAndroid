@@ -21,7 +21,6 @@
         android:layout_height="48dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Game Name"
         android:autofillHints="" />
 
     <LinearLayout
