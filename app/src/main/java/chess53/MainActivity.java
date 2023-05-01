@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
         aiButton = findViewById(R.id.aiButton);
         drawButton = findViewById(R.id.drawButton);
         undoButton = findViewById(R.id.undoButton);
+        undoButton.setEnabled(false);
 
         resignButton.setOnClickListener(v -> {
             MainActivity activity = MainActivity.this;
@@ -64,6 +65,8 @@ public class MainActivity extends Activity {
         undoButton.setOnClickListener(v -> {
             if(chessBoard.undoable) {
                 chessBoard.undo();
+                MainActivity activity = MainActivity.this;
+                activity.undoButton.setEnabled(false);
                 boardAdapter.setData(chessBoard.sendBoard());
                 if(boardAdapter.pieceOne != null) {
                     boardAdapter.pieceOne.callOnClick();
@@ -71,6 +74,8 @@ public class MainActivity extends Activity {
             }
         });
         aiButton.setOnClickListener(v -> {
+            MainActivity activity = MainActivity.this;
+            activity.undoButton.setEnabled(false);
             chessBoard.ai();
             boardAdapter.setData(chessBoard.sendBoard());
             if(boardAdapter.pieceOne != null) {
