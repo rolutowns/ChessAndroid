@@ -17,7 +17,7 @@
     <ListView
         android:id="@+id/gameListView"
         android:layout_width="match_parent"
-        android:layout_height="388dp" />
+        android:layout_height="329dp" />
 
     <Button
         android:id="@+id/openGameButton"

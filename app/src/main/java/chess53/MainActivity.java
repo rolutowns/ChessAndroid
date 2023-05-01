@@ -4,104 +4,46 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chessandroid.R;
 
-public class MainActivity extends Activity {
-    public Button resignButton, aiButton, drawButton, undoButton;
-    public Chess chessBoard;
-    public ChessBoardAdapter boardAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
+public class MainActivity extends Activity {
+    public Button newButton, openButton;
+
+    public ArrayList<Piece[]> selected;
+    public ListView gameListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.home_layout);
+        newButton = findViewById(R.id.newGameButton);
+        openButton = findViewById(R.id.openGameButton);
 
-        chessBoard = new Chess();
-        setContentView(R.layout.play_game_layout);
-        GridView boardView = findViewById(R.id.board);
-        boardAdapter = new ChessBoardAdapter(this);
-        boardAdapter.setParent(boardView);
-        boardView.setAdapter(boardAdapter);
-        boardAdapter.setData(chessBoard.sendBoard());
-        resignButton = findViewById(R.id.resignButton);
-        aiButton = findViewById(R.id.aiButton);
-        drawButton = findViewById(R.id.drawButton);
-        undoButton = findViewById(R.id.undoButton);
-        undoButton.setEnabled(false);
-
-        resignButton.setOnClickListener(v -> {
-            MainActivity activity = MainActivity.this;
-            Chess chessBoard = activity.chessBoard;
-            chessBoard.playTurn("resign");
-            Toast.makeText(activity, chessBoard.getEndText(),Toast.LENGTH_LONG).show();
-//            if(chessBoard.getEndText()!=null) {
-                activity.resignButton.setEnabled(false);
-                activity.drawButton.setEnabled(false);
-                activity.undoButton.setEnabled(false);
-                activity.aiButton.setEnabled(false);
-//            }
+        newButton.setOnClickListener(v -> {
+            Intent newGameIntent = new Intent(MainActivity.this, PlayActivity.class);
+            startActivity(newGameIntent);
         });
-        drawButton.setOnClickListener(v -> {
-            MainActivity activity = MainActivity.this;
-            Chess chessBoard = activity.chessBoard;
-            chessBoard.playTurn("draw");
-            Toast.makeText(activity, chessBoard.getEndText(),Toast.LENGTH_LONG).show();
-//            if(chessBoard.getEndText()!=null) {
-                activity.resignButton.setEnabled(false);
-                activity.drawButton.setEnabled(false);
-                activity.undoButton.setEnabled(false);
-                activity.aiButton.setEnabled(false);
-//            }
-        });
-        undoButton.setOnClickListener(v -> {
-            if(chessBoard.undoable) {
-                chessBoard.undo();
-                MainActivity activity = MainActivity.this;
-                activity.undoButton.setEnabled(false);
-                boardAdapter.setData(chessBoard.sendBoard());
-                if(boardAdapter.pieceOne != null) {
-                    boardAdapter.pieceOne.callOnClick();
-                }
-            }
-        });
-        aiButton.setOnClickListener(v -> {
-            MainActivity activity = MainActivity.this;
-            activity.undoButton.setEnabled(false);
-            chessBoard.ai();
-            boardAdapter.setData(chessBoard.sendBoard());
-            if(boardAdapter.pieceOne != null) {
-                boardAdapter.pieceOne.callOnClick();
-            }
-        });
+    }
 
+    protected void onStart() {
 
-        boardView.setOnItemClickListener((parent, view, position, id) -> {
-            MainActivity activity = MainActivity.this;
-            Chess chessBoard = activity.chessBoard;
-            ChessBoardAdapter boardAdapter = activity.boardAdapter;
+        super.onStart();
 
-//            int start = boardAdapter.firstSelected;
-//            int end = boardAdapter.secondSelected;
-//            if(start == -1 || end == -1) {
-//                Toast.makeText(activity,"No move selected",Toast.LENGTH_LONG).show();
-//            } else {
-//                String x1 = Integer.toString(start % 8);
-//                String y1 = Integer.toString(start / 8);
-//                String x2 = Integer.toString(end % 8);
-//                String y2 = Integer.toString(end / 8);
-//                chessBoard.playTurn(x1+y1+x2+y2);
-//                boardAdapter.setData(chessBoard.sendBoard());
-//                boardAdapter.pieceOne.callOnClick();
-//                undoButton.setEnabled(chessBoard.undoable);
-//            }
-        });
-
-
+        gameListView = findViewById(R.id.gameListView);
+        List<ArrayList> games = new ArrayList<>();
+        gameListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, games));
+        gameListView.setOnItemClickListener((parent, view, position, id) -> selected = (ArrayList<Piece[]>) gameListView.getItemAtPosition(position));
     }
 }
