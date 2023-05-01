@@ -54,6 +54,8 @@ public class Chess {
 
     private boolean legalMove;
 
+    public boolean currCheck;
+
 //    static Piece prevLastMoved;
 
     /**
@@ -68,6 +70,7 @@ public class Chess {
         game = new ArrayList<>();
 //        in = new Scanner(System.in);
         undoable = false;
+        currCheck = false;
 
         board[0][0] = new Rook(false);
         board[0][1] = new Knight(false);
@@ -169,8 +172,7 @@ public class Chess {
             } else if (whiteInCheck || blackInCheck) {
                 if (startPiece instanceof King) {
                     if (Math.abs(dest[1] - src[1]) == 2) legalMove = false;
-                } else
-                    legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
+                } else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
             } else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
 
             if (!legalMove) Log.i("A", "Move not allowed");
@@ -213,7 +215,9 @@ public class Chess {
             undoable = true;
             Log.i("A", "Successful Move");
         }
-        boolean currCheck = false;
+        currCheck = false;
+        kingPos = getKingPos(whiteTurn);
+        tempKing = board[kingPos[0]][kingPos[1]];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (board[i][j] == null) continue;
@@ -237,7 +241,7 @@ public class Chess {
             boolean mate = noValidMoves();
             if (mate) {
                 System.out.println("Checkmate");
-                end = "Black Wins";
+                end = "Checkmate: Black Wins";
                 return;
             }
         }
@@ -245,7 +249,7 @@ public class Chess {
             boolean mate = noValidMoves();
             if (mate) {
                 System.out.println("Checkmate");
-                end = "White Wins";
+                end = "Checkmate: White Wins";
                 return;
             }
         }
@@ -327,19 +331,6 @@ public class Chess {
             }
         }
         return pos;
-    }
-
-    /**
-     * Converts user input into integers for coordinates
-     * Transforms whatever the user puts in into rank and file
-     *
-     * @param spot A string representing the input piece location from the user
-     * @return An integer array with the converted coordinates
-     */
-    private static int[] getIndices(String spot) {
-        char file = spot.charAt(0);
-        int rank = spot.charAt(1) - '0';
-        return new int[]{8 - rank, file - 'a'};
     }
 
     /**

@@ -13,9 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.chessandroid.R;
 
 public class PlayActivity extends Activity {
-    public Button resignButton;
-    public Button aiButton;
-    public Button drawButton;
+    public static Button resignButton;
+    public static Button aiButton;
+    public static Button drawButton;
     public static Button undoButton;
     public static Chess chessBoard;
     public ChessBoardAdapter boardAdapter;
@@ -75,13 +75,25 @@ public class PlayActivity extends Activity {
         });
         aiButton.setOnClickListener(v -> {
             PlayActivity activity = PlayActivity.this;
-            activity.undoButton.setEnabled(false);
+            activity.undoButton.setEnabled(true);
             chessBoard.ai();
             boardAdapter.setData(chessBoard.sendBoard());
             if (boardAdapter.pieceOne != null) {
                 boardAdapter.pieceOne.callOnClick();
             }
         });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if(resultCode == RESULT_OK) {
+                String filename = data.getStringExtra("filename");
+//                boolean record = RecordGame.getInstance().save(filename, board.getRecord(), this);
+//                if(record) {
+//                    Toast.makeText(this,"Game Saved",Toast.LENGTH_SHORT).show();
+//                }
+            }
+            finish();
 
     }
 }

@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.chessandroid.R;
 
@@ -27,7 +28,6 @@ public class ChessBoardAdapter extends BaseAdapter {
     public int firstSelected = -1;
     public int secondSelected = -1;
     public ImageView pieceOne = null;
-    public ImageView pieceTwo = null;
 
     public ChessBoardAdapter(Context context){
         mContext = context;
@@ -96,12 +96,17 @@ public class ChessBoardAdapter extends BaseAdapter {
                     String y2 = Integer.toString(secondSelected / 8);
                     PlayActivity.chessBoard.playTurn(x1 + y1 + x2 + y2);
                     setData(PlayActivity.chessBoard.sendBoard());
-                    if (PlayActivity.chessBoard.undoable)
-                        PlayActivity.undoButton.setEnabled(true);
+                    if (PlayActivity.chessBoard.undoable) PlayActivity.undoButton.setEnabled(true);
+                    if (PlayActivity.chessBoard.currCheck) Toast.makeText(mContext, "Check", Toast.LENGTH_LONG).show();
+                    if (PlayActivity.chessBoard.getEndText()!=null){
+                        PlayActivity.resignButton.setEnabled(false);
+                        PlayActivity.drawButton.setEnabled(false);
+                        PlayActivity.undoButton.setEnabled(false);
+                        PlayActivity.aiButton.setEnabled(false);
+                        Toast.makeText(mContext, PlayActivity.chessBoard.getEndText(), Toast.LENGTH_LONG).show();
+                    }
                 }
             });
-            TextView text = itemContainerView.findViewById(R.id.square_label);
-            text.setText("");
         } else {
             itemContainerView = (RelativeLayout) convertView;
             ViewGroup.LayoutParams containerParams = convertView.getLayoutParams();
