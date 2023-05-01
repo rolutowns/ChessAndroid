@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,6 +43,7 @@ public class MainActivity extends Activity {
         super.onStart();
 
         gameListView = findViewById(R.id.gameListView);
+        gameListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         List<ArrayList> games = new ArrayList<>();
         gameListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, games));
         gameListView.setOnItemClickListener((parent, view, position, id) -> selected = (ArrayList<Piece[]>) gameListView.getItemAtPosition(position));
