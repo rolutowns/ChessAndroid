@@ -22,7 +22,7 @@ import java.util.List;
 public class MainActivity extends Activity {
     public Button newButton, openButton;
 
-    public ArrayList<Piece[]> selected;
+    public Game selected;
     public ListView gameListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,8 @@ public class MainActivity extends Activity {
 
         gameListView = findViewById(R.id.gameListView);
         gameListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        List<ArrayList> games = new ArrayList<>();
+        List<Game> games = new ArrayList<>();
         gameListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, games));
-        gameListView.setOnItemClickListener((parent, view, position, id) -> selected = (ArrayList<Piece[]>) gameListView.getItemAtPosition(position));
+        gameListView.setOnItemClickListener((parent, view, position, id) -> selected = (Game) gameListView.getItemAtPosition(position));
     }
 }

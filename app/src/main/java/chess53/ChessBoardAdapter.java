@@ -1,7 +1,10 @@
 package chess53;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,17 +97,18 @@ public class ChessBoardAdapter extends BaseAdapter {
                     String y1 = Integer.toString(firstSelected / 8);
                     String x2 = Integer.toString(secondSelected % 8);
                     String y2 = Integer.toString(secondSelected / 8);
-                    PlayActivity.chessBoard.playTurn(x1 + y1 + x2 + y2);
+                    PlayActivity.chessBoard.playTurn(x1+y1+x2+y2);
                     setData(PlayActivity.chessBoard.sendBoard());
                     if (PlayActivity.chessBoard.undoable) PlayActivity.undoButton.setEnabled(true);
                     if (PlayActivity.chessBoard.currCheck) Toast.makeText(mContext, "Check", Toast.LENGTH_LONG).show();
-                    if (PlayActivity.chessBoard.getEndText()!=null){
-                        PlayActivity.resignButton.setEnabled(false);
-                        PlayActivity.drawButton.setEnabled(false);
-                        PlayActivity.undoButton.setEnabled(false);
-                        PlayActivity.aiButton.setEnabled(false);
-                        Toast.makeText(mContext, PlayActivity.chessBoard.getEndText(), Toast.LENGTH_LONG).show();
-                    }
+//                    if (PlayActivity.chessBoard.getEndText()!=null){
+//                        PlayActivity.resignButton.setEnabled(false);
+//                        PlayActivity.drawButton.setEnabled(false);
+//                        PlayActivity.undoButton.setEnabled(false);
+//                        PlayActivity.aiButton.setEnabled(false);
+//                        Toast.makeText(mContext, PlayActivity.chessBoard.getEndText(), Toast.LENGTH_LONG).show();
+//                        startActivityForResult(new Intent(PlayActivity., SaveActivity.class), 0);
+//                    }
                 }
             });
         } else {

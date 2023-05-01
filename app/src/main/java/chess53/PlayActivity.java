@@ -1,8 +1,11 @@
 package chess53;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -19,6 +22,9 @@ public class PlayActivity extends Activity {
     public static Button undoButton;
     public static Chess chessBoard;
     public ChessBoardAdapter boardAdapter;
+
+    private Handler handler = new Handler();
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class PlayActivity extends Activity {
             activity.drawButton.setEnabled(false);
             activity.undoButton.setEnabled(false);
             activity.aiButton.setEnabled(false);
+            startActivityForResult(new Intent(PlayActivity.this, SaveActivity.class), 0);
 //            }
         });
         drawButton.setOnClickListener(v -> {
@@ -60,6 +67,7 @@ public class PlayActivity extends Activity {
             activity.drawButton.setEnabled(false);
             activity.undoButton.setEnabled(false);
             activity.aiButton.setEnabled(false);
+            startActivityForResult(new Intent(PlayActivity.this, SaveActivity.class), 0);
 //            }
         });
         undoButton.setOnClickListener(v -> {
@@ -84,6 +92,30 @@ public class PlayActivity extends Activity {
         });
 
     }
+
+    @Override
+    protected void onResume() {
+        handler.postDelayed(runnable = new Runnable() {
+            public void run() {
+                handler.postDelayed(runnable, 1000);
+                if (chessBoard.getEndText()!=null){
+                        resignButton.setEnabled(false);
+                        drawButton.setEnabled(false);
+                        undoButton.setEnabled(false);
+                        aiButton.setEnabled(false);
+                        Toast.makeText(PlayActivity.this, chessBoard.getEndText(), Toast.LENGTH_LONG).show();
+                        startActivityForResult(new Intent(PlayActivity.this, SaveActivity.class), 0);
+                    }
+            }
+        }, 1000);
+        super.onResume();
+    }
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible
+         super.onPause();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             if(resultCode == RESULT_OK) {
