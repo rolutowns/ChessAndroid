@@ -20,7 +20,7 @@ public class Chess {
     /**
      * Boolean to keep track of the current turn, true for white, false for black
      */
-    private static boolean whiteTurn;
+    public static boolean whiteTurn;
 
     /**
      * String to keep track of the end result of the game, null if not over
@@ -172,7 +172,8 @@ public class Chess {
             lastMoved = board[dest[0]][dest[1]];
             lastMoved.hasMoved = true;
             whiteTurn = !whiteTurn;
-            game.add(sendBoard());
+            if(whiteTurn) PlayActivity.gameText.setText("White's turn");
+            else PlayActivity.gameText.setText("Black's turn");            game.add(sendBoard());
             undoable = true;
         }
         currCheck = false;
@@ -352,6 +353,8 @@ public class Chess {
         for (int i = 0; i < 64; i++) board[i / 8][i % 8] = lastBoard[i];
         lastMoved = lastBoard[64];
         whiteTurn = !whiteTurn;
+        if(whiteTurn) PlayActivity.gameText.setText("White's turn");
+        else PlayActivity.gameText.setText("Black's turn");
         game.remove(game.size() - 1);
         undoable = false;
     }

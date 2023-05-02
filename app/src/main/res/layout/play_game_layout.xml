@@ -57,4 +57,13 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="0dp" />
 
+    <TextView
+        android:id="@+id/game_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:text="White's Turn"
+        android:textAlignment="center"
+        android:textSize="48sp" />
+
 </LinearLayout>

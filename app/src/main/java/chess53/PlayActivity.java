@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chessandroid.R;
@@ -16,6 +17,7 @@ public class PlayActivity extends Activity {
     public static Button aiButton;
     public static Button drawButton;
     public static Button undoButton;
+    public static TextView gameText;
     public static Chess chessBoard;
     public ChessBoardAdapter boardAdapter;
 
@@ -39,7 +41,7 @@ public class PlayActivity extends Activity {
         drawButton = findViewById(R.id.drawButton);
         undoButton = findViewById(R.id.undoButton);
         undoButton.setEnabled(false);
-
+        gameText = findViewById(R.id.game_text);
         resignButton.setOnClickListener(v -> {
             PlayActivity activity = PlayActivity.this;
             Chess chessBoard = activity.chessBoard;
