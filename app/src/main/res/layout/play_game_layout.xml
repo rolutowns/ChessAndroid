@@ -64,6 +64,6 @@
         android:layout_weight="10"
         android:text="White's Turn"
         android:textAlignment="center"
-        android:textSize="48sp" />
+        android:textSize="20sp" />
 
 </LinearLayout>

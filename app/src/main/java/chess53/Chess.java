@@ -136,7 +136,6 @@ public class Chess {
                     else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
                 } else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
             } else legalMove = board[src[0]][src[1]].isLegalMove(src[0], dest[0], src[1], dest[1]);
-
             // if move results in self check
             if (legalMove) {
                 kingPos = getKingPos(whiteTurn);
@@ -214,6 +213,7 @@ public class Chess {
         if (noValidMoves()) {
             end = "Stalemate";
         }
+        if(!legalMove) PlayActivity.gameText.setText("Illegal Move Attempted. Try again.");
     }
 
     /**

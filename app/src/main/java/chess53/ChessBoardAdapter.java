@@ -75,9 +75,13 @@ public class ChessBoardAdapter extends BaseAdapter {
                 Log.i("A", "Piece: " + piece.getTag());
                 if (adapter.firstSelected == -1) {
                     adapter.firstSelected = (Integer) piece.getTag();
+                    if(Chess.whiteTurn) PlayActivity.gameText.setText("White's Turn\nFirst Square Selected\nSelect Square to Move To");
+                    else PlayActivity.gameText.setText("Black's Turn\nFirst Square Selected\nSelect Square to Move To");
                 } else {
                     if (adapter.secondSelected != -1) {
                         adapter.firstSelected = (Integer) piece.getTag();
+                        if(Chess.whiteTurn) PlayActivity.gameText.setText("White's Turn\nFirst Square Selected\nSelect Square to Move To");
+                        else PlayActivity.gameText.setText("Black's Turn\nFirst Square Selected\nSelect Square to Move To");
                         adapter.secondSelected = -1;
                     } else {
                         adapter.secondSelected = (Integer) piece.getTag();
